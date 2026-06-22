@@ -1,0 +1,140 @@
+{
+  "cities_and_vuz": {
+    "Italy_Bocconi": {
+      "name_ru": "Университет Боккони (Италия)",
+      "currency": "EUR",
+      "rent_monthly": 800, "food_monthly": 300, "transport_monthly": 50, "tuition_annual": 14000,
+      "weight_paid": 0.05, "weight_grant": 0.30,
+      "majors": {
+        "Business_Management": {
+          "name_ru": "Менеджмент и Финансы (BSc Finance / Management)",
+          "paid_gpa": 4.0, "paid_ielts": 6.5, "paid_sat": 1350,
+          "grant_gpa": 4.8, "grant_ielts": 7.0, "grant_sat": 1480
+        },
+        "Economics_Social": {
+          "name_ru": "Экономика и Социальные науки (BSc Economics)",
+          "paid_gpa": 3.9, "paid_ielts": 6.5, "paid_sat": 1320,
+          "grant_gpa": 4.7, "grant_ielts": 7.0, "grant_sat": 1450
+        },
+        "Politics_Law": {
+          "name_ru": "Политология и Международное право (BSc Politics)",
+          "paid_gpa": 3.8, "paid_ielts": 6.5, "paid_sat": 1300,
+          "grant_gpa": 4.6, "grant_ielts": 7.0, "grant_sat": 1420
+        },
+        "Math_DataScience": {
+          "name_ru": "Математика и Искусственный Интеллект (BSc Math & AI)",
+          "paid_gpa": 4.3, "paid_ielts": 6.5, "paid_sat": 1420,
+          "grant_gpa": 4.9, "grant_ielts": 7.0, "grant_sat": 1520
+        }
+      }
+    },
+    "Italy_LUISS": {
+      "name_ru": "LUISS Guido Carli (Италия)",
+      "currency": "EUR",
+      "rent_monthly": 700, "food_monthly": 250, "transport_monthly": 40, "tuition_annual": 12000,
+      "weight_paid": 0.10, "weight_grant": 0.35,
+      "majors": {
+        "Business_Finance": {
+          "name_ru": "Бизнес и Международные Финансы",
+          "paid_gpa": 4.0, "paid_ielts": 6.5, "paid_sat": 1300,
+          "grant_gpa": 4.7, "grant_ielts": 7.0, "grant_sat": 1450
+        },
+        "Political_Science": {
+          "name_ru": "Политология и Отношения",
+          "paid_gpa": 3.8, "paid_ielts": 6.5, "paid_sat": 1250,
+          "grant_gpa": 4.5, "grant_ielts": 7.0, "grant_sat": 1380
+        }
+      }
+    },
+    "Italy_Polito": {
+      "name_ru": "Politecnico di Torino (Италия)",
+      "currency": "EUR",
+      "rent_monthly": 600, "food_monthly": 250, "transport_monthly": 30, "tuition_annual": 2600,
+      "weight_paid": 0.05, "weight_grant": 0.20,
+      "majors": {
+        "Engineering_IT": {
+          "name_ru": "Инженерия и Компьютерные Науки",
+          "paid_gpa": 3.8, "paid_ielts": 6.0, "paid_sat": 1200,
+          "grant_gpa": 4.5, "grant_ielts": 6.5, "grant_sat": 1400
+        },
+        "Architecture_Design": {
+          "name_ru": "Архитектура и Дизайн",
+          "paid_gpa": 3.6, "paid_ielts": 6.0, "paid_sat": 1150,
+          "grant_gpa": 4.3, "grant_ielts": 6.5, "grant_sat": 1300
+        }
+      }
+    },
+    "Finland_Aalto": {
+      "name_ru": "Aalto University (Финляндия)",
+      "currency": "EUR",
+      "rent_monthly": 750, "food_monthly": 300, "transport_monthly": 60, "tuition_annual": 12000,
+      "weight_paid": 0.05, "weight_grant": 0.15,
+      "majors": {
+        "Tech_Data": {
+          "name_ru": "Цифровые технологии и Data Science",
+          "paid_gpa": 4.0, "paid_ielts": 6.5, "paid_sat": 1350,
+          "grant_gpa": 4.8, "grant_ielts": 6.5, "grant_sat": 1500
+        },
+        "Business_Econ": {
+          "name_ru": "Международный Бизнес и Экономика",
+          "paid_gpa": 3.9, "paid_ielts": 6.5, "paid_sat": 1320,
+          "grant_gpa": 4.7, "grant_ielts": 6.5, "grant_sat": 1460
+        }
+      }
+    },
+    "USA_Purdue": {
+      "name_ru": "Purdue University (США)",
+      "currency": "USD",
+      "rent_monthly": 850, "food_monthly": 350, "transport_monthly": 40, "tuition_annual": 29000,
+      "weight_paid": 0.15, "weight_grant": 0.40,
+      "majors": {
+        "Computer_Science": {
+          "name_ru": "Computer Science & IT (College of Science)",
+          "paid_gpa": 4.5, "paid_ielts": 7.0, "paid_sat": 1450,
+          "grant_gpa": 5.0, "grant_ielts": 7.5, "grant_sat": 1540
+        },
+        "Liberal_Arts": {
+          "name_ru": "Гуманитарный блок (College of Liberal Arts)",
+          "paid_gpa": 3.5, "paid_ielts": 6.5, "paid_sat": 1180,
+          "grant_gpa": 4.2, "grant_ielts": 7.0, "grant_sat": 1320
+        }
+      }
+    },
+    "Canada_UofT": {
+      "name_ru": "University of Toronto (Канада)",
+      "currency": "USD",
+      "rent_monthly": 1200, "food_monthly": 450, "transport_monthly": 100, "tuition_annual": 45000,
+      "weight_paid": 0.10, "weight_grant": 0.35,
+      "majors": {
+        "Applied_Science_Eng": {
+          "name_ru": "Прикладные науки и Аэрокосмический инжиниринг",
+          "paid_gpa": 4.3, "paid_ielts": 6.5, "paid_sat": 1380,
+          "grant_gpa": 4.9, "grant_ielts": 7.0, "grant_sat": 1520
+        },
+        "Rotman_Commerce": {
+          "name_ru": "Коммерция, Учет и Бизнес (Rotman Commerce)",
+          "paid_gpa": 4.1, "paid_ielts": 6.5, "paid_sat": 1320,
+          "grant_gpa": 4.8, "grant_ielts": 7.0, "grant_sat": 1460
+        }
+      }
+    },
+    "Singapore_NUS": {
+      "name_ru": "National University of Singapore",
+      "currency": "USD",
+      "rent_monthly": 800, "food_monthly": 400, "transport_monthly": 80, "tuition_annual": 23000,
+      "weight_paid": 0.10, "weight_grant": 0.35,
+      "majors": {
+        "Computing": {
+          "name_ru": "Программирование и ИИ (School of Computing)",
+          "paid_gpa": 4.8, "paid_ielts": 7.0, "paid_sat": 1500,
+          "grant_gpa": 5.0, "grant_ielts": 7.5, "grant_sat": 1580
+        },
+        "Business": {
+          "name_ru": "Бизнес и Менеджмент (NUS Business School)",
+          "paid_gpa": 4.4, "paid_ielts": 7.0, "paid_sat": 1400,
+          "grant_gpa": 4.9, "grant_ielts": 7.5, "grant_sat": 1500
+        }
+      }
+    }
+  }
+}
