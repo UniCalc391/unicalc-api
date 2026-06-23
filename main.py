@@ -112,3 +112,26 @@ def calculate_roi(req: ROIData):
         "roi_years": round(years_to_payoff, 1),
         "message": f"С учетом стартовой зарплаты {req.expected_annual_salary}, диплом окупится за {round(years_to_payoff, 1)} лет."
     }
+@app.post("/api/calculate-roi")
+async def calculate_roi(data: ROIData):
+    try:
+        total_investment = data.total_education_cost
+        annual_salary = data.expected_annual_salary
+        
+        # Предполагаем, что налоги и расходы съедают 30%, оставляя 70% на окупаемость
+        net_annual_income = annual_salary * 0.7 
+        
+        # Защита от деления на ноль
+        if net_annual_income <= 0:
+            payback_years = 0
+        else:
+            payback_years = total_investment / net_annual_income
+            
+        return {
+            "total_investment": round(total_investment, 2),
+            "expected_annual_salary": round(annual_salary, 2),
+            "payback_period_years": round(payback_years, 1),
+            "five_year_net_benefit": round((net_annual_income * 5) - total_investment, 2)
+        }
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
