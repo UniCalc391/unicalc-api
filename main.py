@@ -1,9 +1,18 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import json
 
-app = FastAPI(title="UniCalc API Pro", description="Мозг платформы: База + Премиум функции", version="2.0")
+app = FastAPI(title="UniCalc API Pro", description="Мозг платформы: База + Премиум функции")
 
+# --- НАСТРОЙКИ CORS (ПРОПУСК ДЛЯ ФРОНТЕНДА) ---
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 # --- 1. ЗАГРУЗКА БАЗЫ ДАННЫХ ---
 try:
     with open('data.json', 'r', encoding='utf-8') as file:
