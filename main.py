@@ -135,3 +135,20 @@ async def calculate_roi(data: ROIData):
         }
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+        # --- ИНТЕГРАЦИЯ ИИ (GEMINI) ---
+
+class AIRequest(BaseModel):
+    prompt: str
+
+GEMINI_KEY = os.environ.get("GEMINI_KEY", "ТВОЙ_РЕАЛЬНЫЙ_КЛЮЧ")
+
+@app.post("/api/analyze")
+def analyze_text(req: AIRequest):
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key={GEMINI_KEY}"
+    payload = {
+        "contents": [{"parts": [{"text": req.prompt}]}]
+    }
+    headers = {"Content-Type": "application/json"}
+    
+    response = requests.post(url, json=payload, headers=headers)
+    return response.json()
