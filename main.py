@@ -28,7 +28,7 @@ def analyze_text(req: AIRequest):
     # Убедись, что используешь правильную версию модели. 
     # В твоем коде указана gemini-3.5-flash, которой пока не существует. 
     # Обычно используется gemini-1.5-flash
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={GEMINI_KEY}"
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key={GEMINI_KEY}"
     
     # 1. Задаем системный промпт ментора
     mentor_prompt = (
