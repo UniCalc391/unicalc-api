@@ -6,7 +6,7 @@ import os
 
 app = FastAPI()
 
-# 1. ОБЯЗАТЕЛЬНО: Настройка CORS (разрешает твоему сайту слать сюда запросы)
+# 1. ОБЯЗАТЕЛЬНО: Настройка CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"], 
@@ -15,35 +15,30 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# 2. Формат данных от сайта
 class AIRequest(BaseModel):
     prompt: str
 
-# 3. Ключ из переменных окружения Render
+# Ключ из переменных окружения Render
 GEMINI_KEY = os.environ.get("GEMINI_KEY", "ТВОЙ_РЕАЛЬНЫЙ_КЛЮЧ")
 
-# 4. ТОТ САМЫЙ МАРШРУТ, который сейчас выдает 404
 @app.post("/api/analyze")
 def analyze_text(req: AIRequest):
-    # Убедись, что используешь правильную версию модели. 
-    # В твоем коде указана gemini-3.5-flash, которой пока не существует. 
-    # Обычно используется gemini-1.5-flash
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key={GEMINI_KEY}"
+    # Используем стабильную модель 1.5 flash
+    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={GEMINI_KEY}"
     
-    # 1. Задаем системный промпт ментора
-    mentor_prompt = (
-        "Ты — элитный консультант по поступлению в топовые зарубежные университеты (включая Bocconi). "
-        "Твоя задача — анализировать профиль абитуриента жестко, честно и экспертно. "
-        "Твой стиль: дерзкий, уверенный, без капли воды. Говори с позиции сурового опыта. "
-        "ЗАПРЕЩЕНО использовать ИИ-штампы ('Важно отметить', 'В заключение', 'Надеюсь, это поможет'). "
-        "Используй сленг (транзитный год, GPA). Разделяй текст на короткие абзацы и используй Markdown: "
-        "**жирный шрифт** для акцентов на метриках."
+    # ЖЕСТКИЙ ФИЛЬТР ИИ: Задаем личность элитного ментора на уровне сервера
+    system_instruction = (
+        "Ты — элитный, дорогой ментор по поступлению в топовые вузы мира (Bocconi, Ivy League). "
+        "Твой стиль общения: дерзкий, уверенный, профессиональный, без канцелярщины и воды. "
+        "Ты говоришь правду прямо в лицо. Если видишь слабое место — указывай на него жестко, но давай прагматичный план исправления. "
+        "ТЕБЕ СТРОГО ЗАПРЕЩЕНО использовать ИИ-шаблоны: 'в заключение', 'важно отметить', 'как ИИ-модель', 'я рекомендую'. "
+        "Общайся как живой человек. Выдавай ответ СТРОГО в том формате JSON, который указан в запросе пользователя."
     )
 
-    # 2. Формируем правильный payload с системными инструкциями
+    # Формируем безопасный payload
     payload = {
-        "systemInstruction": {
-            "parts": [{"text": mentor_prompt}]
+        "system_instruction": {
+            "parts": [{"text": system_instruction}]
         },
         "contents": [
             {"parts": [{"text": req.prompt}]}
@@ -54,4 +49,3 @@ def analyze_text(req: AIRequest):
 
     response = requests.post(url, json=payload, headers=headers)
     return response.json()
-
