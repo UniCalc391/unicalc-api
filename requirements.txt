@@ -1,4 +1,10 @@
 fastapi
 uvicorn
-pydantic
 requests
+pydantic
+sqlalchemy
+flask
+flask-cors
+google-generativeai
+beautifulsoup4
+gunicorn
