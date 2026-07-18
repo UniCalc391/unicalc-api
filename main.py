@@ -19,7 +19,7 @@ app.add_middleware(
 # Используй переменную окружения, как мы обсуждали
 api_key = os.getenv("GEMINI_API_KEY") 
 genai.configure(api_key=api_key)
-model = genai.GenerativeModel('gemini-1.5-flash')
+model = genai.GenerativeModel('gemini-pro')
 
 class RequestBody(BaseModel):
     prompt: str = None
