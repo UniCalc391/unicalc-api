@@ -1,51 +1,62 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-import requests
+import google.generativeai as genai
 import os
+import requests
+from bs4 import BeautifulSoup
 
 app = FastAPI()
 
-# 1. ОБЯЗАТЕЛЬНО: Настройка CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"], 
-    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-class AIRequest(BaseModel):
-    prompt: str
+# Настройка Gemini
+# Используй переменную окружения, как мы обсуждали
+api_key = os.getenv("GEMINI_API_KEY") 
+genai.configure(api_key=api_key)
+model = genai.GenerativeModel('gemini-1.5-flash')
 
-# Ключ из переменных окружения Render
-GEMINI_KEY = os.environ.get("GEMINI_KEY", "ТВОЙ_РЕАЛЬНЫЙ_КЛЮЧ")
+class RequestBody(BaseModel):
+    prompt: str = None
+    url: str = None
 
 @app.post("/api/analyze")
-def analyze_text(req: AIRequest):
-    # Используем стабильную модель 1.5 flash
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={GEMINI_KEY}"
-    
-    # ЖЕСТКИЙ ФИЛЬТР ИИ: Задаем личность элитного ментора на уровне сервера
-    system_instruction = (
-        "Ты — элитный, дорогой ментор по поступлению в топовые вузы мира (Bocconi, Ivy League). "
-        "Твой стиль общения: дерзкий, уверенный, профессиональный, без канцелярщины и воды. "
-        "Ты говоришь правду прямо в лицо. Если видишь слабое место — указывай на него жестко, но давай прагматичный план исправления. "
-        "ТЕБЕ СТРОГО ЗАПРЕЩЕНО использовать ИИ-шаблоны: 'в заключение', 'важно отметить', 'как ИИ-модель', 'я рекомендую'. "
-        "Общайся как живой человек. Выдавай ответ СТРОГО в том формате JSON, который указан в запросе пользователя."
-    )
+async def analyze(body: RequestBody):
+    try:
+        response = model.generate_content(body.prompt)
+        return {"candidates": [{"content": {"parts": [{"text": response.text}]}}]}
+    except Exception as e:
+        return {"error": str(e)}
 
-    # Формируем безопасный payload
-    payload = {
-        "system_instruction": {
-            "parts": [{"text": system_instruction}]
-        },
-        "contents": [
-            {"parts": [{"text": req.prompt}]}
-        ]
-    }
-    
-    headers = {"Content-Type": "application/json"}
+@app.post("/api/parse-program")
+async def parse_program(body: RequestBody):
+    try:
+        # 1. Скачиваем содержимое сайта
+        headers = {'User-Agent': 'Mozilla/5.0'}
+        response = requests.get(body.url, headers=headers)
+        soup = BeautifulSoup(response.text, 'html.parser')
+        
+        # Убираем скрипты и стили для чистого текста
+        for script in soup(["script", "style"]):
+            script.extract()
+        text = soup.get_text(separator=' ', strip=True)
+        
+        # Берем только первые 10000 символов, чтобы не перегрузить Gemini
+        clean_text = text[:10000]
 
-    response = requests.post(url, json=payload, headers=headers)
-    return response.json()
+        # 2. Просим Gemini вытащить инсайты
+        prompt = f"Вытащи из этого текста программы вуза ключевые дисциплины, требования, имена профессоров и уникальные фишки. Оформи в виде структурированного списка:\n\n{clean_text}"
+        response = model.generate_content(prompt)
+        
+        return {"insights": response.text}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+@app.get("/")
+async def root():
+    return {"message": "UniCalc API is alive!"}
